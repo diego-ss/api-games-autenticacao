@@ -64,3 +64,58 @@ Exemplo de resposta:
 ```
 Unauthorized
 ```
+
+### GET /game/id
+Endpoint responsável por retornar o game com o id especificado
+#### Parâmetros
+id: identificador do game no banco de dados
+#### Respostas
+##### - OK! 200
+Confirmação do sucesso na busca e retorno do game
+Exemplo de resposta:
+```
+{
+    "id": 1,
+    "name": "God of War",
+    "year": 2018,
+    "price": 50,
+    "createdAt": "2021-04-07T00:45:30.000Z"
+    "updatedAt": "2021-04-07T00:45:30.000Z"
+}
+```
+##### - 401
+Falha na autenticação da requisição. Motivos: Token inválido/expirado
+Exemplo de resposta:
+```
+{
+    "err": "Token inválido!"
+}
+```
+
+##### - 404
+Game com id especificado não encontrado
+Exemplo de resposta:
+```
+Not Found
+```
+
+### POST /game
+Cadastro de um novo game no banco de dados
+#### Parâmetros
+name: nome do game (string)
+year: ano do game (numérico)
+price: preço do game (numérico)
+#### Respostas
+##### - OK 201
+Confirmação do sucesso no cadastro do game
+##### - 401
+Falha na autenticação da requisição. Motivos: Token inválido/expirado
+Exemplo de resposta:
+```
+{
+    "err": "Token inválido!"
+}
+```
+
+##### - FALHA 500
+Erro no servidor ao cadastrar game
