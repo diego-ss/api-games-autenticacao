@@ -75,9 +75,9 @@ app.post("/game", (req, res) => {
         year: year,
         price: price
     }).then(()=>{
-        console.log("game adicionado com sucesso!");
+        res.sendStatus(201);
     }).catch(()=>{
-        console.log("falha ao adicionar game");
+        res.sendStatus(500);
     });
     res.sendStatus(200);
 });
