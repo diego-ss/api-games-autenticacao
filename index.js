@@ -34,12 +34,30 @@ function authenticate(req, res, next){
 }
 
 app.get("/games",authenticate, (req, res)=>{
+
+    var HATEOAS = [
+        {
+            href:"http://localhost:3000/game/0",
+            method: "DELETE",
+            rel:"delete_game"
+        },
+        {
+            href:"http://localhost:3000/game/0",
+            method: "GET",
+            rel:"get_game"
+        },
+        {
+            href:"http://localhost:3000/auth",
+            method: "POST",
+            rel:"login"
+        }
+    ]
     //retornando o status code
     res.statusCode = 200;
     //retornando em json os resultados
     Game.findAll({raw : true}).then(games=>{
         if(games){
-            res.json(games);
+            res.json({games: games, _links: HATEOAS});
         }
     });
 
@@ -48,6 +66,24 @@ app.get("/games",authenticate, (req, res)=>{
 app.get("/game/:id",authenticate ,(req, res)=>{
     var id = req.params.id;
     
+    var HATEOAS = [
+        {
+            href:"http://localhost:3000/game/" + id,
+            method: "DELETE",
+            rel:"delete_game"
+        },
+        {
+            href:"http://localhost:3000/game/" + id,
+            method: "GET",
+            rel:"get_game"
+        },
+        {
+            href:"http://localhost:3000/game/" + id,
+            method: "PUT",
+            rel:"update_game"
+        }
+    ]
+
     if(isNaN(id)){
         res.sendStatus(400);
     } else {
@@ -57,7 +93,7 @@ app.get("/game/:id",authenticate ,(req, res)=>{
                 //retornando o status code
                 res.statusCode = 200;
                 //retornando em json os resultados
-                res.json(game);
+                res.json({game:game, _links: HATEOAS});
             } else {
                 res.sendStatus(404);
             }
